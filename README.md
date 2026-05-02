@@ -86,19 +86,23 @@ npm run dev
 
 ## Deployment (Railway)
 
-### Backend
-1. Push code to GitHub
-2. Create a new Railway project → "Deploy from GitHub repo"
-3. Select the `backend` folder as root directory
-4. Set environment variables: `MONGO_URI`, `JWT_SECRET`, `PORT`
-5. Deploy — Railway auto-detects Node.js
+The application is fully configured for automated deployment on Railway as a monorepo.
 
-### Frontend
-1. Create another Railway service (or use Vercel)
-2. Select the `frontend` folder as root directory
-3. Set build command: `npm run build`
-4. Set start command: `npx serve dist -s -l 3000`
-5. Set environment variable: `VITE_API_URL=https://your-backend.railway.app/api`
+### Backend Deployment
+1. Push the code to GitHub.
+2. In Railway, click "New Project" → "Deploy from GitHub repo" and select this repository.
+3. Go to the service **Settings** and set the **Root Directory** to `/backend`.
+4. Railway will automatically use the provided `railway.json` to build and run the node server.
+5. In the **Variables** tab, add your environment variables: `MONGO_URI`, `JWT_SECRET`, and `PORT` (e.g., 5000).
+6. Generate a domain in the **Networking** tab.
+
+### Frontend Deployment
+1. In the same Railway project, click "New" → "GitHub Repo" and select the repository again to create a second service.
+2. Go to the service **Settings** and set the **Root Directory** to `/frontend`.
+3. Railway will automatically use the provided `Dockerfile` to build the Vite app and serve it using Node.js.
+4. In the **Variables** tab, add the environment variable: `VITE_API_URL` (set it to the backend domain generated in the previous step, e.g., `https://your-backend.railway.app/api`).
+5. Generate a domain in the **Networking** tab.
+6. Trigger a redeploy if necessary to bake the environment variable into the frontend build.
 
 ## Project Structure
 ```
